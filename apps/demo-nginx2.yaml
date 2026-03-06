@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-nginx2
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/yeji-im/gitops-demo
+    targetRevision: feature/app-of-apps
+    path: charts/demo-nginx2
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: d14-appofapps
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
